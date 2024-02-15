@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import axios from "axios";
   import {GlobalConstants} from "@/Common/Global-constants";
-  import {reactive, ref} from "vue";
+  import {reactive} from "vue";
 
   let wordToSend :string
   const responses = reactive([])
+  let hasWin: boolean = false
 
   function sendApiRequestToSemantic(word){
     if (!word){
@@ -15,6 +16,10 @@
           .then((response)=>{
             console.log(response.data.value)
             responses.push(word+" "+response.data.value+"%")
+            if (response.data.value === 100){
+              console.log('gagné')
+              hasWin = true
+            }
           })
     }
 
@@ -23,11 +28,20 @@
 </script>
 
 <template>
-  <input type="text" v-model="wordToSend">
-  <button @click="sendApiRequestToSemantic(wordToSend)" type="submit">Checker la relation</button>
-  <ul class="list">
-    <li v-for="response in responses">{{response}}</li>
-  </ul>
+
+
+  <div class="interface">
+    <h1>cémantix</h1>
+    <div class="card">
+
+    </div>
+    <div v-show="hasWin" class="status">Gagné</div>
+    <input type="text" v-model="wordToSend" v-if="!hasWin">
+    <button v-if="!hasWin" @click="sendApiRequestToSemantic(wordToSend)" type="submit">Checker la relation</button>
+    <ul class="list">
+      <li v-for="response in responses">{{response}}</li>
+    </ul>
+  </div>
 
 </template>
 
