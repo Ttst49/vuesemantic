@@ -38,15 +38,31 @@
     <div v-show="hasWin" class="status">Gagné</div>
     <input type="text" v-model="wordToSend" v-if="!hasWin">
     <button v-if="!hasWin" @click="sendApiRequestToSemantic(wordToSend)" type="submit">Checker la relation</button>
-    <ul class="list">
-      <li v-for="response in responses">{{response}}</li>
-    </ul>
+    <div class="arrayOfResponses">
+      <ul class="list">
+        <li v-for="response in responses">{{response}}</li>
+      </ul>
+    </div>
   </div>
 
 </template>
 
 <style scoped lang="scss">
+  .interface {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
   .list{
     list-style: none;
+  }
+
+  .arrayOfResponses{
+    margin: 10vh;
+    width: 20vw;
+    min-height: 5vh;
+    border: 1px solid black;
   }
 </style>
